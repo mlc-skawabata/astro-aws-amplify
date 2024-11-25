@@ -3,17 +3,19 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - npm i -g pnpm
+        - pnpm config set store-dir .pnpm-store
+        - pnpm i
     build:
       commands:
         - env >> .env
-        - npm run build
-        - mv node_modules ./.amplify-hosting/compute/default
+        - pnpm run build
         - mv .env ./.amplify-hosting/compute/default/.env
+
   artifacts:
     baseDirectory: .amplify-hosting
     files:
       - '**/*'
   cache:
     paths:
-      - node_modules/**/*
+      - .pnpm-store/**/*
