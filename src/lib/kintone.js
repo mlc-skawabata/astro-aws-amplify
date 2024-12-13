@@ -1,5 +1,5 @@
 const API = import.meta.env.KINTONE_API;
-const SPACE = import.meta.env.KINTONE_SPACE_ID;
+//const SPACE = import.meta.env.KINTONE_SPACE_ID;
 const TOKEN = import.meta.env.KINTONE_API_TOKEN;
 const PAGE_APP_ID = import.meta.env.KINTONE_PAGE_APP_ID;
 const CATEGORIES = [
@@ -30,7 +30,7 @@ async function apiCall(query, variables) {
             'X-Cybozu-API-Token': TOKEN
         }
     }
-    console.debug(fetchUrl + "?" + new URLSearchParams(query), options);
+    console.debug(fetchUrl + "?" + new URLSearchParams(query), options, variables);
     return await fetch(fetchUrl + "?" + new URLSearchParams(query), options);
 }
 
@@ -107,7 +107,7 @@ async function getPageById(id) {
     } else {
         pages = await getAllPages();
     }
-    return cacheAllPages[id];
+    return pages[id];
 }
 
 export const client = { getAllPages, getPageById }

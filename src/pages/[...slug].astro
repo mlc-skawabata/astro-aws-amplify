@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   const pages = await client.getAllPages();
 
   return Object.entries(pages).map(obj => {
-    const [id , page] = obj;
+    const [, page] = obj;
 
     const slug = page.$slug ? page.$slug : undefined;
 
