@@ -7,7 +7,7 @@ export default defineConfig({
   output: 'hybrid', // output: 'server'
   adapter: awsAmplify(),
   build: {
-    format: 'file',
+    format: 'preserve',
   },
   redirects: {
     '/old-page': '/new-page',
