@@ -29,7 +29,7 @@ const { page } = Astro.props;
   <main>
     <p>
       {page.$path.slice(0, page.$path.length - 1).map((item) => (
-        <spna><a href={item.slug}>{item.name}</a> &gt; </spna>
+        <spna><a href={'/' + item.slug}>{item.name}</a> &gt; </spna>
       ))} <span>{page.title.value}</span>
     </p>
     <h1>{page.title.value}</h1>
