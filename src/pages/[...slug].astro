@@ -1,39 +1,42 @@
 ---
+
+import { client } from "../lib/kintone";
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
 export const prerender = true;
 export async function getStaticPaths() {
-  const pages = [
-    {
-      slug: undefined,
-      title: "Astro Store",
-      text: "Welcome to the Astro store!",
-    },
-    {
-      slug: "products",
-      title: "Astro products",
-      text: "We have lots of products for you",
-    },
-    {
-      slug: "products/astro-handbook",
-      title: "The ultimate Astro handbook",
-      text: "If you want to learn Astro, you must read this book.",
-    },
-  ];
-  return pages.map(({ slug, title, text }) => {
+  // array -> hash[id]
+  const pages = await client.getAllPages();
+
+  return Object.entries(pages).map(obj => {
+    const [id , page] = obj;
+
+    const slug = page.$slug ? page.$slug : undefined;
+    const title = page.title.value;
+    const body = page.body.value;
+    const path = page.$path;
+
     return {
       params: { slug },
-      props: { title, text },
+      props: { page },
     };
   });
 }
 
-const { title, text } = Astro.props;
+const { page } = Astro.props;
 ---
-<html>
-  <head>
-    <title>{title}</title>
-  </head>
-  <body>
-    <h1>{title}</h1>
-    <p>{text}</p>
-  </body>
-</html>
+<Layout title={page.title.value}>
+  <Header />
+  <main>
+    <p>
+      {page.$path.slice(0, page.$path.length - 1).map((item) => (
+        <spna><a href={item.slug}>{item.name}</a> &gt; </spna>
+      ))} <span>{page.title.value}</span>
+    </p>
+    <h1>{page.title.value}</h1>
+    <article set:html={page.body.value}></article>
+  </main>
+  <Footer />
+</Layout>
