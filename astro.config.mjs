@@ -4,6 +4,6 @@ import awsAmplify from 'astro-aws-amplify';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'hybrid', // output: 'server'
+  output: 'static', // output: 'server'
   //adapter: awsAmplify()
 });
