@@ -9,6 +9,7 @@ export default defineConfig({
   //build: {
   //  format: 'directory',
   //},
+  trailingSlash: 'always',
   redirects: {
     '/old-page': '/new-page',
   },
