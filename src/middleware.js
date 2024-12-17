@@ -5,7 +5,7 @@ export function onRequest (context, next) {
     console.log(import.meta.env);
     if (context.url.pathname == '/life/') {
         console.log(context.url);
-        return context.rewrite(new Request("/life/index.html"));
+        //return context.rewrite(new Request("/life/index.html"));
     }
 
     // Responseか`next()`の結果を返します
