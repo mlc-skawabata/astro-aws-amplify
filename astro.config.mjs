@@ -6,12 +6,12 @@ import awsAmplify from 'astro-aws-amplify';
 export default defineConfig({
   output: 'hybrid', // output: 'server'
   adapter: awsAmplify(),
-  //build: {
-  //  format: 'directory',
-  //},
-  //trailingSlash: 'always',
+  build: {
+    format: 'directory',
+  },
+  trailingSlash: 'always',
   redirects: {
     '/old-page': '/new-page',
-    '/life/index.html': '/life-test/',
+    //'/life/index.html': '/life-test/',
   },
 });
