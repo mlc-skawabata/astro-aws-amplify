@@ -12,5 +12,6 @@ export default defineConfig({
   //trailingSlash: 'always',
   redirects: {
     '/old-page': '/new-page',
+    '/life/index.html': '/life-test/',
   },
 });
