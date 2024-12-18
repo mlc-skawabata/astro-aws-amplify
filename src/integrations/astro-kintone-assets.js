@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { loadEnv } from 'vite'
+//import { loadEnv } from 'vite'
 import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 import { Buffer } from 'node:buffer';
 
@@ -9,7 +9,7 @@ function downloadKintoneAssets() {
         name: 'download-kintone-assets',
         hooks: {
             'astro:build:start': async () => {
-                const env = loadEnv(import.meta.env.MODE, process.cwd(), '');
+                //const env = loadEnv(import.meta.env.MODE, process.cwd(), '');
                 const dir = 'public/downloads';
                 if (!fs.existsSync(dir)) {
                     await fs.promises.mkdir(dir);
