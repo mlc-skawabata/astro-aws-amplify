@@ -17,7 +17,7 @@ function downloadKintoneAssets() {
                 const client = new KintoneRestAPIClient({
                     baseUrl: 'https://2zb3bybyeov2.cybozu.com',
                     auth: {
-                        apiToken: env.KINTONE_FILE_APP_API_TOKEN
+                        apiToken: '3bYDyfTJyl7WSyLgWEEWRzErGyPLaocUPiAHXGjQ'
                     }
                 });
                 const response = await client.record.getRecords({app: 2})
