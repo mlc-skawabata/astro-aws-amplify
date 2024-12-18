@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # amplify hosting folder
 .amplify-hosting/
+
+# kintone downloads
+public/downloads/
