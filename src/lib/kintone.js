@@ -1,12 +1,9 @@
-import { writeFile } from 'node:fs/promises';
-import { Buffer } from 'node:buffer';
+import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 
 const API = import.meta.env.KINTONE_API;
-const FILE_API = import.meta.env.KINTONE_FILE_API;
+const API_BASE_URL = import.meta.env.KINTONE_API_BASE_URL;
 const PAGE_APP_ID = import.meta.env.KINTONE_PAGE_APP_ID;
 const PAGE_APP_API_TOKEN = import.meta.env.KINTONE_PAGE_APP_API_TOKEN;
-const FILE_APP_ID = import.meta.env.KINTONE_FILE_APP_ID;
-const FILE_APP_API_TOKEN = import.meta.env.KINTONE_FILE_APP_API_TOKEN;
 const CATEGORIES = [
     {
         name: '暮らし・手続き',
@@ -27,17 +24,17 @@ const CATEGORIES = [
 ]
 let cacheAllPages = [];
 
-async function apiCall(query, token, variables) {
-    const fetchUrl = API;
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-Cybozu-API-Token': token
-        }
-    }
-    console.debug(fetchUrl + "?" + new URLSearchParams(query), options, variables);
-    return await fetch(fetchUrl + "?" + new URLSearchParams(query), options);
-}
+// async function apiCall(query, token, variables) {
+//     const fetchUrl = API;
+//     const options = {
+//         method: 'GET',
+//         headers: {
+//             'X-Cybozu-API-Token': token
+//         }
+//     }
+//     console.debug(fetchUrl + "?" + new URLSearchParams(query), options, variables);
+//     return await fetch(fetchUrl + "?" + new URLSearchParams(query), options);
+// }
 
 function getAllCategories() {
     return CATEGORIES;
@@ -82,12 +79,17 @@ function pagePath(page) {
 }
 
 async function getAllPages() {
-    const query = {
-        app: PAGE_APP_ID
-    }
-    const response = await apiCall(query, PAGE_APP_API_TOKEN);
-    const json = await response.json();
-    const records = await json.records;
+    // const query = {
+    //     app: PAGE_APP_ID
+    // }
+    // const response = await apiCall(query, PAGE_APP_API_TOKEN);
+    // const json = await response.json();
+    const client = new KintoneRestAPIClient({
+        baseUrl: API_BASE_URL,
+        auth: { apiToken: PAGE_APP_API_TOKEN}
+    })
+    const response = await client.record.getRecords({ app: PAGE_APP_ID })
+    const records = response.records;
 
     // array -> hash[id]
     const pages = Object.fromEntries(records.map(x => {

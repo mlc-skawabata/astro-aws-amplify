@@ -4,30 +4,28 @@ import path from 'node:path'
 import { KintoneRestAPIClient } from '@kintone/rest-api-client';
 import { Buffer } from 'node:buffer';
 
-function downloadKintoneAssets() {
+function downloadKintoneAssets({ baseUrl, apiToken, appId, assetDir }) {
+    console.log(baseUrl)
+    console.log(apiToken)
     return {
         name: 'download-kintone-assets',
         hooks: {
             'astro:build:start': async () => {
-                //const env = loadEnv(import.meta.env.MODE, process.cwd(), '');
-                const dir = 'public/downloads';
-                if (!fs.existsSync(dir)) {
-                    await fs.promises.mkdir(dir);
+                if (!fs.existsSync(assetDir)) {
+                    await fs.promises.mkdir(assetDir);
                 }
                 const client = new KintoneRestAPIClient({
-                    baseUrl: 'https://2zb3bybyeov2.cybozu.com',
-                    auth: {
-                        apiToken: '3bYDyfTJyl7WSyLgWEEWRzErGyPLaocUPiAHXGjQ'
-                    }
+                    baseUrl,
+                    auth: { apiToken }
                 });
-                const response = await client.record.getRecords({app: 2})
-                const fileRecords = response.records;
+                const response = await client.record.getRecords({ app: appId })
+                const records = response.records;
 
-                fileRecords.forEach(async (x) => {
+                records.forEach(async (x) => {
                     if (!x.File.value[0]) return;
                     const meta = x.File.value[0];
                     const data = await client.file.downloadFile({ fileKey: meta.fileKey })
-                    const finalPath = path.join(dir, meta.name)
+                    const finalPath = path.join(assetDir, meta.name)
                     await fs.promises.writeFile(finalPath, Buffer.from(data));
                 })
             }

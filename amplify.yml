@@ -6,6 +6,7 @@ frontend:
         - npm i -g pnpm
         - pnpm config set store-dir .pnpm-store
         - pnpm i
+        - pnpm add vite --save-dev
     build:
       commands:
         - env >> .env
