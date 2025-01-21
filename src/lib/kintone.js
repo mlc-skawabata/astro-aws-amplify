@@ -104,13 +104,17 @@ async function getAllPages() {
 }
 
 async function getPageById(id) {
-    let pages;
-    if (cacheAllPages) {
-        pages = cacheAllPages;
-    } else {
-        pages = await getAllPages();
-    }
-    return pages[id];
+    const client = new KintoneRestAPIClient({
+        baseUrl: API_BASE_URL,
+        auth: { apiToken: PAGE_APP_API_TOKEN}
+    })
+    const response = await client.record.getRecord({ app: PAGE_APP_ID, id: id })
+    const page = response.record;
+
+    page.$category = getCategoryByName(page.category.value);
+    page.$slug = longSlug(page);
+    page.$path = pagePath(page);
+    return page;
 }
 
 export const client = { getAllPages, getPageById }

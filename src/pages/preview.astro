@@ -1,0 +1,73 @@
+---
+// @ts-nocheck
+import { client } from "../lib/kintone";
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+export const prerender = false;
+
+let page;
+
+if  (Astro.request.method === 'GET') {
+  const id = Astro.url.searchParams.get('id') || '';
+
+  if (!id) {
+    return new Response(null, {
+      status: 404,
+      statusText: 'Not Found!!'
+
+    })
+  }
+
+  try {
+    page = await client.getPageById(id);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+
+      return new Response(null, {
+        status: 404,
+        statusText: 'Not Found!!'
+
+      })
+    }
+  }
+} else if(Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    const title = data.get("title");
+    const body = data.get("body");
+    console.log(data);
+
+    page = {
+      $path : [],
+      title : {
+        value: title
+      },
+      body : {
+        value: body
+      },
+    }
+    // Do something with the data
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+---
+
+<Layout title={page.title.value}>
+  <Header />
+  <main>
+    <p>
+      {page.$path.slice(0, page.$path.length - 1).map((item) => (
+        <spna><a href={'/' + item.slug}>{item.name}</a> &gt; </spna>
+      ))} <span>{page.title.value}</span>
+    </p>
+    <h1>{page.title.value}</h1>
+    <article set:html={page.body.value}></article>
+  </main>
+  <Footer />
+</Layout>
