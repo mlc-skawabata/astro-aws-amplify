@@ -11,8 +11,6 @@ frontend:
       commands:
         - env >> .env
         - pnpm run build
-        - find node_modules -ls
-        #- mv node_modules ./.amplify-hosting/compute/default
         - mv .env ./.amplify-hosting/compute/default/.env
   artifacts:
     baseDirectory: .amplify-hosting
