@@ -2,11 +2,10 @@
 export const prerender = false;
 
 // @ts-nocheck
-//import { client } from "../../lib/kintone";
+import { client } from "../../lib/kintone";
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
 let page;
 
@@ -21,48 +20,41 @@ if  (Astro.request.method === 'GET') {
     })
   }
 
-  let body = format(new Date(), "'Today is a' yyyy/MM/dd HH:mm:ss");
-      return new Response(body, {
-        status: 200,
-        statusText: 'OK'
+  try {
+    page = await client.getPageById(id);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+
+      return new Response(null, {
+        status: 404,
+        statusText: 'Not Found!!'
 
       })
-
-  // try {
-  //   page = await client.getPageById(id);
-  // } catch (error) {
-  //   if (error instanceof Error) {
-  //     console.error(error.message);
-
-  //     return new Response(null, {
-  //       status: 404,
-  //       statusText: 'Not Found!!'
-
-  //     })
-  //   }
-  // }
+    }
+  }
 } else if(Astro.request.method === 'POST') {
-  // try {
-  //   const data = await Astro.request.formData();
-  //   const title = data.get("title");
-  //   const body = data.get("body");
-  //   console.log(data);
+  try {
+    const data = await Astro.request.formData();
+    const title = data.get("title");
+    const body = data.get("body");
+    console.log(data);
 
-  //   page = {
-  //     $path : [],
-  //     title : {
-  //       value: title
-  //     },
-  //     body : {
-  //       value: body
-  //     },
-  //   }
-  //   // Do something with the data
-  // } catch (error) {
-  //   if (error instanceof Error) {
-  //     console.error(error.message);
-  //   }
-  // }
+    page = {
+      $path : [],
+      title : {
+        value: title
+      },
+      body : {
+        value: body
+      },
+    }
+    // Do something with the data
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
 }
 ---
 
