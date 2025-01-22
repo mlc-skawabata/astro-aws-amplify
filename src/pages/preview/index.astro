@@ -28,41 +28,41 @@ if  (Astro.request.method === 'GET') {
 
       })
 
-  try {
-    page = await client.getPageById(id);
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
+  // try {
+  //   page = await client.getPageById(id);
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     console.error(error.message);
 
-      return new Response(null, {
-        status: 404,
-        statusText: 'Not Found!!'
+  //     return new Response(null, {
+  //       status: 404,
+  //       statusText: 'Not Found!!'
 
-      })
-    }
-  }
+  //     })
+  //   }
+  // }
 } else if(Astro.request.method === 'POST') {
-  try {
-    const data = await Astro.request.formData();
-    const title = data.get("title");
-    const body = data.get("body");
-    console.log(data);
+  // try {
+  //   const data = await Astro.request.formData();
+  //   const title = data.get("title");
+  //   const body = data.get("body");
+  //   console.log(data);
 
-    page = {
-      $path : [],
-      title : {
-        value: title
-      },
-      body : {
-        value: body
-      },
-    }
-    // Do something with the data
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
+  //   page = {
+  //     $path : [],
+  //     title : {
+  //       value: title
+  //     },
+  //     body : {
+  //       value: body
+  //     },
+  //   }
+  //   // Do something with the data
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     console.error(error.message);
+  //   }
+  // }
 }
 ---
 
