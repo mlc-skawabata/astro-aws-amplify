@@ -15,6 +15,7 @@
     "astro": "^4.16.13",
     "astro-aws-amplify": "^0.1.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
     "ecliptic-equinox": "file:",
     "typescript": "^5.7.2"
   },
