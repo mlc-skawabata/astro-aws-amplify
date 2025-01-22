@@ -1,6 +1,6 @@
 ---
 // @ts-nocheck
-import { client } from "../../lib/kintone";
+//import { client } from "../../lib/kintone";
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
@@ -19,6 +19,12 @@ if  (Astro.request.method === 'GET') {
 
     })
   }
+
+      return new Response(null, {
+        status: 200,
+        statusText: 'OK'
+
+      })
 
   try {
     page = await client.getPageById(id);
