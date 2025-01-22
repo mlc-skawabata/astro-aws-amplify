@@ -6,12 +6,13 @@ frontend:
         - npm i -g pnpm
         - pnpm config set store-dir .pnpm-store
         - pnpm i
-        - pnpm add vite --save-dev
+        #- pnpm add vite --save-dev
     build:
       commands:
         - env >> .env
         - pnpm run build
-        - mv node_modules ./.amplify-hosting/compute/default
+        - find node_modules -ls
+        #- mv node_modules ./.amplify-hosting/compute/default
         - mv .env ./.amplify-hosting/compute/default/.env
   artifacts:
     baseDirectory: .amplify-hosting
