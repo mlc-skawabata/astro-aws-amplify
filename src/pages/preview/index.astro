@@ -1,12 +1,12 @@
 ---
+export const prerender = false;
+
 // @ts-nocheck
 //import { client } from "../../lib/kintone";
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { format, formatDistance, formatRelative, subDays } from 'date-fns';
-
-export const prerender = false;
 
 let page;
 

@@ -1,22 +1,40 @@
+# version: 1
+# frontend:
+#   phases:
+#     preBuild:
+#       commands:
+#         - npm i -g pnpm
+#         - pnpm config set store-dir .pnpm-store
+#         - pnpm i
+#         - pnpm add vite --save-dev
+#     build:
+#       commands:
+#         - env >> .env
+#         - pnpm run build
+#         - mv .env ./.amplify-hosting/compute/default/.env
+
+#   artifacts:
+#     baseDirectory: .amplify-hosting
+#     files:
+#       - '**/*'
+#   cache:
+#     paths:
 version: 1
 frontend:
   phases:
     preBuild:
       commands:
-        - npm i -g pnpm
-        - pnpm config set store-dir .pnpm-store
-        - pnpm i
-        - pnpm add vite --save-dev
+        - npm ci
     build:
       commands:
         - env >> .env
-        - pnpm run build
+        - npm run build
+        - mv node_modules ./.amplify-hosting/compute/default
         - mv .env ./.amplify-hosting/compute/default/.env
-
   artifacts:
     baseDirectory: .amplify-hosting
     files:
       - '**/*'
   cache:
     paths:
-      - .pnpm-store/**/*
+      - node_modules/**/*      - .pnpm-store/**/*
