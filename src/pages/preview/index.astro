@@ -4,6 +4,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
 export const prerender = false;
 
@@ -20,7 +21,8 @@ if  (Astro.request.method === 'GET') {
     })
   }
 
-      return new Response(null, {
+  let body = format(new Date(), "'Today is a' yyyy/MM/dd HH:mm:ss");
+      return new Response(body, {
         status: 200,
         statusText: 'OK'
 
